@@ -18,11 +18,19 @@ class ViewController: UIViewController {
     }
 
     @IBAction func redButtonPressed(_ sender: UIButton) {
-        playSound()
+        playSound(sender.currentTitle)
+        //Reduces the sender's (the button that got pressed) opacity to half.
+                sender.alpha = 0.5
+                
+                //Code should execute after 0.2 second delay.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    //Bring's sender's opacity back up to fully opaque.
+                    sender.alpha = 1.0
+                }
     }
     
-    func playSound(){
-        let url = Bundle.main.url(forResource: "C", withExtension: "wav")
+    func playSound(_ titleName: String?){
+        let url = Bundle.main.url(forResource: titleName ?? "", withExtension: "wav")
         player = try! AVAudioPlayer(contentsOf: url!)
         player.play()
     }
